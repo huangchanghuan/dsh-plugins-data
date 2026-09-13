@@ -82,6 +82,9 @@ function normalizePatchPath(value) {
   return normalized
 }
 
+// 增量校验缓存：仓库 pushedAt 未变化时复用上一轮分类结果，避免每小时上千次内容请求。
+let prevRepoMap = new Map()
+
 async function inspectRepository(repository) {
   const base = {
     repository: repository.full_name,
@@ -98,6 +101,27 @@ async function inspectRepository(repository) {
     template: repository.is_template,
     updatedAt: repository.updated_at,
     pushedAt: repository.pushed_at,
+  }
+
+  const previous = prevRepoMap.get(repository.full_name)
+  if (
+    previous
+    && previous.pushedAt === repository.pushed_at
+    && previous.classification
+    && !repository.archived
+    && !repository.disabled
+    && !repository.is_template
+  ) {
+    return {
+      ...base,
+      classification: previous.classification,
+      reason: previous.reason ?? null,
+      commit: previous.commit,
+      package: previous.package,
+      install: previous.install,
+      packageName: previous.packageName,
+      bundlePatch: previous.bundlePatch,
+    }
   }
 
   const packageText = await readRepositoryFile(repository.full_name, repository.default_branch, 'package.json')
@@ -348,6 +372,16 @@ if (process.argv.includes('--readme-only')) {
   process.exit(0)
 }
 
+const pluginsPath = join(root, 'catalog', 'plugins.json')
+const repositoriesPath = join(root, 'catalog', 'repositories.json')
+const previousPluginsCatalog = await readExistingCatalog(pluginsPath)
+const previousRepositoriesCatalog = await readExistingCatalog(repositoriesPath)
+prevRepoMap = new Map(
+  (previousRepositoriesCatalog?.repositories ?? [])
+    .filter((entry) => entry && entry.repository)
+    .map((entry) => [entry.repository, entry]),
+)
+
 const repositories = await searchRepositories()
 console.log(`发现 ${repositories.length} 个带有 ${topic} 主题的仓库，开始校验清单。`)
 
@@ -358,8 +392,7 @@ const pluginsFromScan = inspected.filter((entry) => entry.classification === 'pl
 // 宽限期保留：GitHub Search API 最多返回 1000 条结果，topic 仓库数超过上限后，
 // 排序漂移会把上一轮有效的插件"挤出"搜索结果。对这类漏网插件逐个直接复核：
 // 仓库仍在且清单校验通过则保留（不计入 repositories.json 快照），仓库消失/归档/失效才剔除。
-const previousCatalogForMerge = await readExistingCatalog(join(root, 'catalog', 'plugins.json'))
-const previousPluginsForMerge = previousCatalogForMerge?.topic === topic ? previousCatalogForMerge.plugins ?? [] : []
+const previousPluginsForMerge = previousPluginsCatalog?.topic === topic ? previousPluginsCatalog.plugins ?? [] : []
 const scannedNames = new Set(inspected.map((entry) => entry.repository))
 const missingPrevious = previousPluginsForMerge.filter((entry) => !scannedNames.has(entry.repository))
 const retainedFromPrevious = []
@@ -379,18 +412,14 @@ if (missingPrevious.length > 0) {
 const plugins = pluginsFromScan.concat(retainedFromPrevious).sort(compareEntries)
 
 await mkdir(join(root, 'catalog'), { recursive: true })
-const pluginsPath = join(root, 'catalog', 'plugins.json')
-const repositoriesPath = join(root, 'catalog', 'repositories.json')
-const previousPlugins = await readExistingCatalog(pluginsPath)
-const previousRepositories = await readExistingCatalog(repositoriesPath)
-const unchanged = previousPlugins?.topic === topic
-  && previousPlugins?.count === plugins.length
-  && sameData(previousPlugins?.plugins, plugins)
-  && previousRepositories?.topic === topic
-  && previousRepositories?.reportedCount === repositories.length
-  && sameData(previousRepositories?.repositories, inspected)
-const snapshot = unchanged && previousPlugins?.generatedAt === previousRepositories?.generatedAt
-  ? previousPlugins.generatedAt
+const unchanged = previousPluginsCatalog?.topic === topic
+  && previousPluginsCatalog?.count === plugins.length
+  && sameData(previousPluginsCatalog?.plugins, plugins)
+  && previousRepositoriesCatalog?.topic === topic
+  && previousRepositoriesCatalog?.reportedCount === repositories.length
+  && sameData(previousRepositoriesCatalog?.repositories, inspected)
+const snapshot = unchanged && previousPluginsCatalog?.generatedAt === previousRepositoriesCatalog?.generatedAt
+  ? previousPluginsCatalog.generatedAt
   : new Date().toISOString()
 
 await writeFile(repositoriesPath, `${JSON.stringify({
