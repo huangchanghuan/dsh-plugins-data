@@ -353,7 +353,30 @@ console.log(`发现 ${repositories.length} 个带有 ${topic} 主题的仓库，
 
 const inspected = await mapConcurrent(repositories, concurrency, inspectRepository)
 inspected.sort(compareEntries)
-const plugins = inspected.filter((entry) => entry.classification === 'plugin').sort(compareEntries)
+const pluginsFromScan = inspected.filter((entry) => entry.classification === 'plugin').sort(compareEntries)
+
+// 宽限期保留：GitHub Search API 最多返回 1000 条结果，topic 仓库数超过上限后，
+// 排序漂移会把上一轮有效的插件"挤出"搜索结果。对这类漏网插件逐个直接复核：
+// 仓库仍在且清单校验通过则保留（不计入 repositories.json 快照），仓库消失/归档/失效才剔除。
+const previousCatalogForMerge = await readExistingCatalog(join(root, 'catalog', 'plugins.json'))
+const previousPluginsForMerge = previousCatalogForMerge?.topic === topic ? previousCatalogForMerge.plugins ?? [] : []
+const scannedNames = new Set(inspected.map((entry) => entry.repository))
+const missingPrevious = previousPluginsForMerge.filter((entry) => !scannedNames.has(entry.repository))
+const retainedFromPrevious = []
+if (missingPrevious.length > 0) {
+  console.log(`本次搜索未覆盖 ${missingPrevious.length} 个既有插件，逐个直接复核。`)
+  const rechecked = await mapConcurrent(missingPrevious, concurrency, async (entry) => {
+    const repo = await githubFetch(`/repos/${entry.repository}`, { optional: true })
+    if (!repo) return null
+    const result = await inspectRepository(repo)
+    return result.classification === 'plugin' ? result : null
+  })
+  for (const result of rechecked) {
+    if (result) retainedFromPrevious.push(result)
+  }
+  console.log(`复核完成：保留 ${retainedFromPrevious.length} 个，剔除 ${missingPrevious.length - retainedFromPrevious.length} 个。`)
+}
+const plugins = pluginsFromScan.concat(retainedFromPrevious).sort(compareEntries)
 
 await mkdir(join(root, 'catalog'), { recursive: true })
 const pluginsPath = join(root, 'catalog', 'plugins.json')
