@@ -27,8 +27,8 @@ function assertMetadata(html, expected) {
   assert.match(html, /<meta name="description" content="[^"]+">/)
   assert.match(html, /<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">/)
   assert.match(html, new RegExp(`<link rel="canonical" href="${expected.canonical.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}">`))
-  assert.match(html, /<link rel="alternate" hreflang="zh-CN" href="https:\/\/dsh-plugins\.org\//)
-  assert.match(html, /<link rel="alternate" hreflang="en" href="https:\/\/dsh-plugins\.org\/en/)
+  assert.match(html, /<link rel="alternate" hreflang="zh-CN" href="https:\/\/dsh-plugins.app.workbuddy.host\//)
+  assert.match(html, /<link rel="alternate" hreflang="en" href="https:\/\/dsh-plugins.app.workbuddy.host\/en/)
   assert.match(html, /<meta property="og:image:width" content="1200">/)
   assert.match(html, /<meta property="og:image:height" content="630">/)
   assert.doesNotMatch(html, /meta name="keywords"/i)
@@ -41,8 +41,8 @@ function assertMetadata(html, expected) {
 
 test('双语首页提供完整元数据、可见内容与结构化数据', async () => {
   const pages = [
-    { file: 'index.html', lang: 'zh-CN', canonical: 'https://dsh-plugins.org/', types: ['WebSite', 'CollectionPage', 'FAQPage'] },
-    { file: 'en.html', lang: 'en', canonical: 'https://dsh-plugins.org/en', types: ['WebSite', 'CollectionPage', 'FAQPage'] },
+    { file: 'index.html', lang: 'zh-CN', canonical: 'https://dsh-plugins.app.workbuddy.host/', types: ['WebSite', 'CollectionPage', 'FAQPage'] },
+    { file: 'en.html', lang: 'en', canonical: 'https://dsh-plugins.app.workbuddy.host/en', types: ['WebSite', 'CollectionPage', 'FAQPage'] },
   ]
 
   for (const page of pages) {
@@ -72,7 +72,7 @@ test('每个插件都有唯一的双语静态详情页', async () => {
       const html = await read(routeFile(path))
       assertMetadata(html, {
         lang: locale === 'zh' ? 'zh-CN' : 'en',
-        canonical: `https://dsh-plugins.org${path}`,
+        canonical: `https://dsh-plugins.app.workbuddy.host${path}`,
       })
       assert.match(html, new RegExp(plugin.commit))
       assert.ok(html.includes(plugin.install.command))
@@ -103,14 +103,14 @@ test('站点地图只包含可索引规范网址且均有构建产物', async ()
 
   for (const location of locations) {
     const url = new URL(location)
-    assert.equal(url.origin, 'https://dsh-plugins.org')
+    assert.equal(url.origin, 'https://dsh-plugins.app.workbuddy.host')
     await assert.doesNotReject(() => read(routeFile(url.pathname)))
   }
 })
 
 test('抓取、订阅、AI 发现与应用清单文件完整', async () => {
   const robots = await read('robots.txt')
-  assert.equal(robots, 'User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /catalog/\n\nSitemap: https://dsh-plugins.org/sitemap.xml\n')
+  assert.equal(robots, 'User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /catalog/\n\nSitemap: https://dsh-plugins.app.workbuddy.host/sitemap.xml\n')
 
   const feed = await read('feed.xml')
   assert.equal(matches(feed, /<item>/g).length, 50)
@@ -121,7 +121,7 @@ test('抓取、订阅、AI 发现与应用清单文件完整', async () => {
   assert.deepEqual(manifest.icons.map((icon) => icon.sizes), ['192x192', '512x512'])
 
   assert.match(await read('llms.txt'), /Machine-readable catalog/)
-  assert.equal(matches(await read('llms-full.txt'), /^- \[[^\]]+\]\(https:\/\/dsh-plugins\.org\/en\/plugins\//gm).length, catalog.count)
+  assert.equal(matches(await read('llms-full.txt'), /^- \[[^\]]+\]\(https:\/\/dsh-plugins.app.workbuddy.host\/en\/plugins\//gm).length, catalog.count)
 
   const ogImage = await readFile(join(dist, 'og-image.png'))
   assert.equal(ogImage.subarray(1, 4).toString(), 'PNG')
@@ -131,10 +131,10 @@ test('抓取、订阅、AI 发现与应用清单文件完整', async () => {
 
 test('信任页面可索引而错误页明确禁止索引', async () => {
   for (const page of [
-    ['about.html', 'zh-CN', 'https://dsh-plugins.org/about'],
-    ['en/about.html', 'en', 'https://dsh-plugins.org/en/about'],
-    ['privacy.html', 'zh-CN', 'https://dsh-plugins.org/privacy'],
-    ['en/privacy.html', 'en', 'https://dsh-plugins.org/en/privacy'],
+    ['about.html', 'zh-CN', 'https://dsh-plugins.app.workbuddy.host/about'],
+    ['en/about.html', 'en', 'https://dsh-plugins.app.workbuddy.host/en/about'],
+    ['privacy.html', 'zh-CN', 'https://dsh-plugins.app.workbuddy.host/privacy'],
+    ['en/privacy.html', 'en', 'https://dsh-plugins.app.workbuddy.host/en/privacy'],
   ]) {
     assertMetadata(await read(page[0]), { lang: page[1], canonical: page[2] })
   }
@@ -153,9 +153,15 @@ test('站内页面链接不会指向缺失页面', async () => {
     const hrefs = matches(html, /href="([^"]+)"/g)
     for (const href of hrefs) {
       if (!href.startsWith('/') || href.startsWith('//')) continue
-      const pathname = new URL(href, 'https://dsh-plugins.org').pathname
+      const pathname = new URL(href, 'https://dsh-plugins.app.workbuddy.host').pathname
       if (/\.[a-z0-9]+$/i.test(pathname)) {
-        await assert.doesNotReject(() => read(pathname.slice(1)))
+        const target = pathname.slice(1)
+        try {
+          await read(target)
+        } catch {
+          // 带点的路径可能是 Clean URL（如仓库名 dsh.plus），回退到对应 .html 文件
+          await assert.doesNotReject(() => read(routeFile(pathname)))
+        }
       } else {
         await assert.doesNotReject(() => read(routeFile(pathname)))
       }

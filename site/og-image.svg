@@ -16,5 +16,5 @@
   <text x="88" y="342" fill="#f07a4d" font-family="Arial, sans-serif" font-size="38" font-weight="700">DeepSeek Harness 插件目录</text>
   <text x="88" y="414" fill="#b9dce8" font-family="Arial, sans-serif" font-size="27">搜索插件 · 查看详情 · 复制安装命令</text>
   <line x1="88" y1="500" x2="640" y2="500" stroke="#f07a4d" stroke-width="3"/>
-  <text x="88" y="548" fill="#f5f3ec" font-family="Arial, sans-serif" font-size="24">dsh-plugins.org</text>
+  <text x="88" y="548" fill="#f5f3ec" font-family="Arial, sans-serif" font-size="24">dsh-plugins.app.workbuddy.host</text>
 </svg>

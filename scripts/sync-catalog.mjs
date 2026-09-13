@@ -23,7 +23,7 @@ const token = resolveToken()
 async function githubFetch(path, { optional = false, raw = false } = {}) {
   const headers = {
     Accept: raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json',
-    'User-Agent': 'lwmxiaobei-dsh-plugins',
+    'User-Agent': 'huangchanghuan-dsh-plugins-data',
     'X-GitHub-Api-Version': '2022-11-28',
   }
   if (token) headers.Authorization = `Bearer ${token}`
@@ -241,9 +241,9 @@ function generateChineseReadme(snapshot, plugins) {
     '> [!IMPORTANT]',
     '> 收录不代表官方背书、安全审计或运行兼容。安装第三方插件前，请检查上游源码、权限、依赖和许可证。',
     '',
-    '## 插件网站',
+    '## 在线浏览',
     '',
-    '[dsh-plugins.org](https://dsh-plugins.org)',
+    '[dsh-plugins.app.workbuddy.host](https://dsh-plugins.app.workbuddy.host)',
     '',
     '## 插件目录',
     '',
@@ -308,9 +308,9 @@ function generateEnglishReadme(snapshot, plugins) {
     '> [!IMPORTANT]',
     '> Inclusion does not imply official endorsement, a security audit, or runtime compatibility. Review the upstream source code, permissions, dependencies, and license before installing a third party plugin.',
     '',
-    '## Plugin website',
+    '## Browse online',
     '',
-    '[dsh-plugins.org](https://dsh-plugins.org)',
+    '[dsh-plugins.app.workbuddy.host](https://dsh-plugins.app.workbuddy.host)',
     '',
     '## Plugin directory',
     '',

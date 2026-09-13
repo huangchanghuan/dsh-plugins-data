@@ -8,12 +8,12 @@
     <meta name="theme-color" content="#173c58">
     <meta name="color-scheme" content="light dark">
     <meta name="author" content="DSH Plugins community">
-    <link rel="canonical" href="https://dsh-plugins.org/en">
-    <link rel="alternate" hreflang="zh-CN" href="https://dsh-plugins.org/">
-    <link rel="alternate" hreflang="en" href="https://dsh-plugins.org/en">
-    <link rel="alternate" hreflang="x-default" href="https://dsh-plugins.org/">
-    <link rel="alternate" type="application/rss+xml" title="Latest DSH Plugins" href="https://dsh-plugins.org/feed.xml">
-    <link rel="sitemap" type="application/xml" href="https://dsh-plugins.org/sitemap.xml">
+    <link rel="canonical" href="https://dsh-plugins.app.workbuddy.host/en">
+    <link rel="alternate" hreflang="zh-CN" href="https://dsh-plugins.app.workbuddy.host/">
+    <link rel="alternate" hreflang="en" href="https://dsh-plugins.app.workbuddy.host/en">
+    <link rel="alternate" hreflang="x-default" href="https://dsh-plugins.app.workbuddy.host/">
+    <link rel="alternate" type="application/rss+xml" title="Latest DSH Plugins" href="https://dsh-plugins.app.workbuddy.host/feed.xml">
+    <link rel="sitemap" type="application/xml" href="https://dsh-plugins.app.workbuddy.host/sitemap.xml">
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -22,17 +22,17 @@
     <meta property="og:site_name" content="DSH Plugins">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="zh_CN">
-    <meta property="og:url" content="https://dsh-plugins.org/en">
+    <meta property="og:url" content="https://dsh-plugins.app.workbuddy.host/en">
     <meta property="og:title" content="DeepSeek Harness Plugins and Install Guide">
     <meta property="og:description" content="Search {{PLUGIN_COUNT}} DSH community plugins, inspect their details, and copy latest-version install commands.">
-    <meta property="og:image" content="https://dsh-plugins.org/og-image.png">
+    <meta property="og:image" content="https://dsh-plugins.app.workbuddy.host/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="DSH Plugins, a community directory for DeepSeek Harness plugins">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DeepSeek Harness Plugins and Install Guide">
     <meta name="twitter:description" content="Search DSH community plugins and copy latest-version install commands.">
-    <meta name="twitter:image" content="https://dsh-plugins.org/og-image.png">
+    <meta name="twitter:image" content="https://dsh-plugins.app.workbuddy.host/og-image.png">
     <title>DeepSeek Harness Plugins and Install Guide | DSH Plugins</title>
     {{STRUCTURED_DATA}}
   </head>
@@ -41,7 +41,7 @@
     <header class="hero">
       <nav class="nav shell" aria-label="Main navigation">
         <a class="brand" href="/en" aria-label="DSH Plugins home"><svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M7 27c4 0 6-2 7-6 3 7 9 11 18 11 4 0 7-2 9-4-2 8-9 13-18 13C13 41 7 35 7 27Z"/><path d="M35 18c4 0 7-3 7-7 3 5 2 10-2 13M17 27c3 2 7 3 11 3"/></svg><span>DSH Plugins</span></a>
-        <div class="nav-actions"><a class="nav-link" href="#install-guide">Install guide</a><a class="nav-link" href="/en/about">About</a><a class="nav-link language-link" href="/" lang="zh-CN" hreflang="zh-CN">中文</a><a class="nav-link" href="https://github.com/lwmxiaobei/dsh-plugins" target="_blank" rel="noopener noreferrer"><span>GitHub</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 14 14 6M8 6h6v6"/></svg></a></div>
+        <div class="nav-actions"><a class="nav-link" href="#install-guide">Install guide</a><a class="nav-link" href="/en/about">About</a><a class="nav-link language-link" href="/" lang="zh-CN" hreflang="zh-CN">中文</a><a class="nav-link" href="https://github.com/huangchanghuan/dsh-plugins-data" target="_blank" rel="noopener noreferrer"><span>GitHub</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 14 14 6M8 6h6v6"/></svg></a></div>
       </nav>
       <div class="hero-body shell">
         <div class="hero-copy"><p class="eyebrow"><span></span>Community plugin directory</p><h1>Explore <em>DSH plugins</em></h1><p class="hero-lead">Discover, search, and install DeepSeek Harness community plugins. Compare real upstream repositories, versions, licenses, and latest-version commands for agent tools, Web UI extensions, and developer workflows.</p><a class="hero-action" href="#directory-title"><span>Browse the directory</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a></div>
@@ -68,7 +68,7 @@
       <section class="editorial-section faq-section" aria-labelledby="faq-title"><div class="section-heading compact-heading"><p class="section-index">04 / FAQ</p><h2 id="faq-title">Frequently asked questions</h2><p>Answers about plugin discovery, install commands, and catalog data.</p></div><div class="faq-list"><details><summary>What is a DeepSeek Harness plugin?</summary><p>It is an extension installed into DeepSeek Harness to add tools, user interfaces, model integrations, memory, browser automation, or other capabilities. Each plugin is maintained by its upstream repository.</p></details><details><summary>Which version does the install command use?</summary><p>The command has no commit hash. DeepSeek Harness fetches the latest version from the upstream default branch when you install it. The commit shown on the detail page only identifies the catalog check snapshot.</p></details><details><summary>Are listed plugins security audited?</summary><p>No. The directory validates public metadata and basic plugin structure, not the complete code, security, or privacy behavior. Review source, permissions, and license before installing.</p></details><details><summary>How do I submit or update a plugin?</summary><p>Add the <code>dsh-plugin</code> topic to a public GitHub repository and keep its plugin manifest complete. The next catalog sync can discover and validate it, or you can open an issue in the directory repository.</p></details></div></section>
     </main>
 
-    <footer class="footer"><div class="shell footer-inner"><p>Community maintained. No official endorsement or security audit.</p><nav class="footer-links" aria-label="Footer navigation"><a href="/en/about">About</a><a href="/en/privacy">Privacy</a><a href="/" lang="zh-CN" hreflang="zh-CN">中文</a><a href="https://github.com/lwmxiaobei/dsh-plugins" target="_blank" rel="noopener noreferrer">Source <span aria-hidden="true">↗</span></a></nav></div></footer>
+    <footer class="footer"><div class="shell footer-inner"><p>Community maintained. No official endorsement or security audit.</p><nav class="footer-links" aria-label="Footer navigation"><a href="/en/about">About</a><a href="/en/privacy">Privacy</a><a href="/" lang="zh-CN" hreflang="zh-CN">中文</a><a href="https://github.com/huangchanghuan/dsh-plugins-data" target="_blank" rel="noopener noreferrer">Source <span aria-hidden="true">↗</span></a></nav></div></footer>
     <div class="toast" id="copy-status" role="status" aria-live="polite" aria-atomic="true"></div>
     <template id="plugin-card-template"><li><article class="plugin-card"><header class="plugin-header"><div class="plugin-title"><p class="plugin-owner" data-owner></p><h3><a data-repository><span class="sr-only">Plugin name</span></a></h3></div><p class="plugin-stars"><span aria-hidden="true">★</span> <span data-stars></span></p></header><p class="plugin-description" data-description></p><ul class="plugin-meta"><li data-language-item><span data-language></span></li><li data-license></li><li data-version-item>v<span data-version></span></li></ul><div class="install-command"><code data-command></code><button class="copy-button" type="button" data-copy><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="6" width="10" height="10" rx="1"/><path d="M4 13H3V3h10v1"/></svg><span>Copy command</span></button></div></article></li></template>
     <script type="application/json" id="detail-repositories">{{DETAIL_REPOSITORIES}}</script>

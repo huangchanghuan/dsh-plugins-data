@@ -7,9 +7,9 @@
 > [!IMPORTANT]
 > 收录不代表官方背书、安全审计或运行兼容。安装第三方插件前，请检查上游源码、权限、依赖和许可证。
 
-## 插件网站
+## 在线浏览
 
-[dsh-plugins.org](https://dsh-plugins.org)
+[dsh-plugins.app.workbuddy.host](https://dsh-plugins.app.workbuddy.host)
 
 ## 插件目录
 

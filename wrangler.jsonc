@@ -13,15 +13,5 @@
   },
   "observability": {
     "enabled": true
-  },
-  "routes": [
-    {
-      "pattern": "dsh-plugins.org",
-      "custom_domain": true
-    },
-    {
-      "pattern": "www.dsh-plugins.org",
-      "custom_domain": true
-    }
-  ]
+  }
 }

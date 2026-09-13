@@ -1,6 +1,6 @@
 const UPSTREAM_CATALOG_URL = 'https://raw.githubusercontent.com/huangchanghuan/dsh-plugins-data/main/catalog/plugins.json'
 const CACHE_SECONDS = 15 * 60
-const PRODUCTION_HOST = 'dsh-plugins.org'
+const PRODUCTION_HOST = 'dsh-plugins.app.workbuddy.host'
 
 function isPreviewHost(hostname) {
   return hostname.endsWith('.workers.dev')

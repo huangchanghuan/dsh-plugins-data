@@ -9,7 +9,7 @@ const sourceDirectory = join(root, 'site')
 const outputDirectory = join(root, 'dist')
 const catalogSource = join(root, 'catalog/plugins.json')
 const catalogOutput = join(outputDirectory, 'catalog/plugins.json')
-const siteUrl = process.env.SITE_URL || 'https://dsh-plugins.org'
+const siteUrl = process.env.SITE_URL || 'https://dsh-plugins.app.workbuddy.host'
 const pageSize = 24
 
 const catalog = JSON.parse(await readFile(catalogSource, 'utf8'))
@@ -146,7 +146,7 @@ function siteFooter(locale, alternatePath = locales[locale].alternatePath) {
     ? { note: '社区维护，不代表官方背书或安全审计。', about: '关于目录', privacy: '隐私说明', source: '目录源码', nav: '页脚导航' }
     : { note: 'Community maintained. No official endorsement or security audit.', about: 'About', privacy: 'Privacy', source: 'Source', nav: 'Footer navigation' }
 
-  return `<footer class="footer"><div class="shell footer-inner"><p>${labels.note}</p><nav class="footer-links" aria-label="${labels.nav}"><a href="${current.about}">${labels.about}</a><a href="${current.privacy}">${labels.privacy}</a><a href="${alternatePath}" lang="${current.alternateLocale}" hreflang="${current.alternateLocale}">${current.alternateLabel}</a><a href="https://github.com/lwmxiaobei/dsh-plugins" target="_blank" rel="noopener noreferrer">${labels.source} <span aria-hidden="true">↗</span></a></nav></div></footer>`
+  return `<footer class="footer"><div class="shell footer-inner"><p>${labels.note}</p><nav class="footer-links" aria-label="${labels.nav}"><a href="${current.about}">${labels.about}</a><a href="${current.privacy}">${labels.privacy}</a><a href="${alternatePath}" lang="${current.alternateLocale}" hreflang="${current.alternateLocale}">${current.alternateLabel}</a><a href="https://github.com/huangchanghuan/dsh-plugins-data" target="_blank" rel="noopener noreferrer">${labels.source} <span aria-hidden="true">↗</span></a></nav></div></footer>`
 }
 
 function renderPluginCard(plugin, locale, index) {

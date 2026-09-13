@@ -44,5 +44,4 @@ npm run list    # 列出目录内插件
 
 ## 数据来源与许可
 
-- 数据管道与前端工程改造自 [lwmxiaobei/dsh-plugins](https://github.com/lwmxiaobei/dsh-plugins)（MIT License，见 LICENSE）
-- 插件元数据来自各插件上游公开 GitHub 仓库
+- 本项目以 MIT License 发布，详见 [LICENSE](../LICENSE)；插件元数据来自各插件上游公开 GitHub 仓库

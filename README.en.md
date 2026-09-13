@@ -7,9 +7,9 @@ A community maintained directory of DeepSeek Harness plugins, with links and des
 > [!IMPORTANT]
 > Inclusion does not imply official endorsement, a security audit, or runtime compatibility. Review the upstream source code, permissions, dependencies, and license before installing a third party plugin.
 
-## Plugin website
+## Browse online
 
-[dsh-plugins.org](https://dsh-plugins.org)
+[dsh-plugins.app.workbuddy.host](https://dsh-plugins.app.workbuddy.host)
 
 ## Plugin directory
 
