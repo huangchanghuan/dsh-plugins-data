@@ -2,12 +2,12 @@
 
 > https://dsh-plugins.app.workbuddy.host/
 
-本站是 DeepSeek Harness（DSH）插件生态的中英双语全量目录，收录 705 个社区插件，数据汇总自各插件上游公开 GitHub 仓库的元数据（星标、语言、许可证、版本、安装命令）。
+本站是 DeepSeek Harness（DSH）插件生态的中英双语全量目录，收录 __COUNT__ 个社区插件，数据汇总自各插件上游公开 GitHub 仓库的元数据（星标、语言、许可证、版本、安装命令）。
 
 ## 站点内容
 - 中文版：https://dsh-plugins.app.workbuddy.host/ （index.html）
 - 英文版：https://dsh-plugins.app.workbuddy.host/en.html （en.html）
-- 插件目录：705 个插件卡片（名称、作者、星标、语言、许可证、版本、功能介绍、一键安装命令）
+- 插件目录：__COUNT__ 个插件卡片（名称、作者、星标、语言、许可证、版本、功能介绍、一键安装命令）
 - 筛选与排序：关键词搜索 + 语言（9 种）+ 许可证（7 类）+ 按星标/最近更新/名称排序，筛选状态同步到 URL 可分享
 - 其他：RSS 订阅（feed.xml）、键盘快捷键 `/` 聚焦搜索、亮/暗双主题、清除筛选
 - 安装指南：三步完成安装

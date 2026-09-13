@@ -585,8 +585,10 @@ _robots = f"User-agent: *\nAllow: /\n\nSitemap: {SITE}sitemap.xml\n"
 io.open(os.path.join(OUTDIR, "robots.txt"), "w", encoding="utf-8", newline="\n").write(_robots)
 print("robots.txt written")
 
-# llms.txt (assets template, keep UTF-8 BOM for no-charset scenarios)
+# llms.txt (assets template, keep UTF-8 BOM for no-charset scenarios; __COUNT__ = plugin count)
 _llms_src = os.path.join(REPO_ROOT, "assets", "llms.txt")
 if os.path.exists(_llms_src):
-    shutil.copyfile(_llms_src, os.path.join(OUTDIR, "llms.txt"))
-    print("llms.txt copied (with BOM)")
+    _llms = io.open(_llms_src, "r", encoding="utf-8-sig").read()
+    _llms = _llms.replace("__COUNT__", str(len(plugins)))
+    io.open(os.path.join(OUTDIR, "llms.txt"), "w", encoding="utf-8-sig", newline="\n").write(_llms)
+    print("llms.txt written (with BOM, count=%d)" % len(plugins))
